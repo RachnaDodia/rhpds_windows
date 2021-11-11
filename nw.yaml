@@ -1,0 +1,11 @@
+---
+- name: cli command playbook
+  hosts: all
+  gather_facts: no
+  vars:
+    ansible_connection: network_cli
+
+  tasks:
+    - name: show command
+      cli_command:
+        command: show ip interface brief
