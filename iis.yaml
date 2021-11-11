@@ -15,9 +15,9 @@
 
     - name: Create website index.html
       win_copy:
-        content: "{{ iis_test_message }}"
+        content: "racha"
         dest: C:\Inetpub\wwwroot\index.html
 
     - name: Show website address
       debug:
-        msg: http://{{ ansible_host }}
+        msg: http://44.198.191.248
