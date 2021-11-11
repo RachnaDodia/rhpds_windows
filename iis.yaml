@@ -3,21 +3,12 @@
   hosts: windows
 
   tasks:
-    - name: install iis
-      win_feature:
-        name: Web-Server
+    - name: Download the Apache installer
+      win_get_url:
+        url: https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi
+        dest: C:\ansible_examples\httpd-2.2.25-win32-x86-no_ssl.msi
+
+    - name: Install MSI
+      win_package: 
+        path: C:\ansible_examples\httpd-2.2.25-win32-x86-no_ssl.msi
         state: present
-
-    - name: start iis service
-      win_service:
-        name: W3Svc
-        state: started
-
-    - name: Create website index.html
-      win_copy:
-        content: "racha"
-        dest: C:\Inetpub\wwwroot\index.html
-
-    - name: Show website address
-      debug:
-        msg: http://44.198.191.248
