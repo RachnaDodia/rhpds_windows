@@ -8,4 +8,4 @@
   tasks:
     - name: show command
       cli_command:
-        command: show ip interface brief
+        command: show ip interface brief|grep DHCP
