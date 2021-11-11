@@ -6,6 +6,9 @@
     ansible_connection: network_cli
 
   tasks:
-    - name: show command
-      cli_command:
-        command: show ip interface brief|grep DHCP
+    - name: run command expecting user confirmation
+      ansible.netcommon.cli_command:
+        command: show interface summary
+        prompt: Press any key to continue
+        answer: y
+        newline: false
