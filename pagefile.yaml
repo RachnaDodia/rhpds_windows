@@ -13,7 +13,7 @@
 
     - name: Manage page files on virtual machines
       win_pagefile:
-        remove_all: no
+        remove_all: yes
         automatic: no
       register: new_pagefile_info
 
