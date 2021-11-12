@@ -1,0 +1,40 @@
+- name: Generate a self-signed certificate
+  hosts: all
+  gather_facts: false
+  vars:
+    dns_name: 'acme.org'
+
+  tasks:
+    - name: Certificate is retrieved 1
+      win_shell: dir cert:\localmachine\my\
+      register: result_output
+
+    - name: Certificate is generated 2
+      win_shell: >
+        New-SelfSignedCertificate
+        -DnsName "{{ inventory_hostname }}"
+        -CertStoreLocation cert:\LocalMachine\My
+        -KeyExportPolicy Exportable
+      failed_when: cert_creation.rc != 0 3
+      when: 'dns_name not in result_output.stdout' 4
+
+    - name: IIS Binding is retrieved 5
+      win_shell: Get-IISSiteBinding 'Default Web Site'
+      changed_when: false
+      register: binding_result
+
+    - name: Certificate thumbprint is retrieved 6
+      win_shell: >
+        (Get-ChildItem -Path Cert:\LocalMachine\My |
+        Where-Object {$_.Subject -match "{{ dns_name }}"}).Thumbprint;
+      register: cert_thumbprint
+
+    - name: SSL binding is configured 7
+      win_iis_webbinding:
+        name: Default Web Site
+        protocol: https
+        port: 443
+        ip: "*"
+        certificate_hash: "{{ cert_thumbprint.stdout | trim }}"
+        state: present
+      when: "'443' not in binding_result.stdout"
