@@ -16,7 +16,7 @@
         type: dword
  
     - name: "2.2.10,CCE-35912-5 | Ensure 'Back up files and directories' is set to 'Administrators'"
-      win_user_right::
+      win_user_right:
         name: SeBackupPrivilege
         users:
         - Administrators
