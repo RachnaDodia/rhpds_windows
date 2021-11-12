@@ -22,4 +22,14 @@
         - Administrators
         action: set
     
+    - name: "18.1.2.2,CCE-Null | Ensure 'Allow users to enable online speech recognition services' is set to 'Disabled'"
+      win_regedit:
+        path: HKLM:\Software\Policies\Microsoft\InputPersonalization
+        name: "AllowInputPersonalization"
+        data: "0"
+        type: dword
 
+    - name: "17.9.5,CCE-37132-8 | Ensure 'Audit System Integrity' is set to 'Success and Failure'"
+      win_audit_policy_system:
+        subcategory: System Integrity
+        audit_type: success, failure
