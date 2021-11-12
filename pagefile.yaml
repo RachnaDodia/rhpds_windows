@@ -23,4 +23,4 @@
 
     - name: Show current memory information
       debug:
-        var: ansible_facts['memtotal_mb'
+        var: ansible_facts['memtotal_mb']
