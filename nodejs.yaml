@@ -9,7 +9,6 @@
       - name: python
         version: 3.6.0
   tasks:
-
   - name: Install specific versions of packages sequentially
     win_chocolatey:
       name: "{{ item.name }}"
